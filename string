@@ -1,0 +1,18 @@
+using Azure.Storage.Blobs;
+
+// Ambil connection string dari environment variable (Application Settings)
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+// Buat BlobServiceClient menggunakan connection string
+BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+
+// Dapatkan referensi ke container
+BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("gulamerah");
+
+// Mengunggah file
+BlobClient blobClient = containerClient.GetBlobClient("gulamerah");
+using (FileStream uploadFileStream = File.OpenRead("hitam-legam/mahjong-suka/scatter-hitam-mahjong.html"))
+{
+    blobClient.Upload(uploadFileStream);
+    uploadFileStream.Close();
+}
